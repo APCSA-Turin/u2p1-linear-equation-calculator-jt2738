@@ -13,7 +13,7 @@ public class LinearCalculator{
     //For example, "(1,2)" and "(3,4)" would be two parameter values 
     //You will have to parse the string into 4 integers, representing the 2 points.
     public LinearCalculator(String coor1, String coor2){ // <--add 2 string parameters to this constructor
-        int idxCom= coor1.indexOf(",");
+        int idxCom= coor1.indexOf(","); 
         String coor1NumX= coor1.substring(1, idxCom);
         String coor1NumY= coor1.substring(idxCom+1, coor1.length()-1);
         x1 = Integer.parseInt(coor1NumX);
@@ -34,16 +34,16 @@ public class LinearCalculator{
     public int getY1(){return y1;}
     public int getX2(){return x2;}
     public int getY2(){return y2;}
-    public void setX1(int newX1){
+    public void setX1(int newX1){   //x-point for first coor
         x1 = newX1;
     }
-    public void setY1(int newY1){
+    public void setY1(int newY1){   //y-point for first coor
         y1 = newY1;
     }
-    public void setX2(int newX2){
+    public void setX2(int newX2){   //x-point for second coor
         x2 = newX2;
     }
-    public void setY2(int newY2){
+    public void setY2(int newY2){   //y-point for second coor
         y2 = newY2;
     }
 
@@ -51,20 +51,40 @@ public class LinearCalculator{
     //distance() -> returns a double. 
     //calculates the distance between the two points to the nearest HUNDREDTH and returns the value.
     public double distance(){
-        double x1And2 = Math.pow((x2 - x1), 2);
-        double y1And2 = Math.pow((y2 - y1), 2);
+        double x1And2 = Math.pow((x2 - x1), 2); // (x2-x1)^2
+        double y1And2 = Math.pow((y2 - y1), 2); //(y2-y1)^2
         return roundedToHundredth(Math.sqrt((x1And2+y1And2)));
     }
     //yInt() -> returns a double.
     //calculates the y intercept of the equation and returns the value to the nearest HUNDREDTH
     //if y-int if undefined, should return -999.99
     public double yInt(){
-        if((x2-x1)==0){
+        if((x2-x1)==0){ // undef
             return -999.99;
         }
         return roundedToHundredth(y1-(slope()*x1));
     }
-
+    //symmetry
+    public String symmetry() {
+        if (x1==x2 && -y1==y2) {
+            return "X-Axis Symmetry";
+        } else {
+            if (-x1==x2 && y1==y2) {
+                return "Y-Axis Symmetry";
+            } else { 
+                if (-x1==x2 && -y1==y2) {
+                    return "Origin Symmetry";
+                } else {
+                    return "No symmetry";
+                }
+            }
+        }
+    }
+    public String Midpoint(){
+        int XMidpoint= ((x1+x2)/2);
+        int YMidpoint= ((y1+y2)/2);
+        return "(" + XMidpoint + "," + YMidpoint + ")";
+    }
     //slope() -> returns a double. 
     //calculates the slope of the equations and returns the value to the nearest HUNDREDTH
     //if slope is undefined, should return -999.99
@@ -82,13 +102,13 @@ public class LinearCalculator{
     //if the equation has no slope, the equation should return -> "undefined"
     //HINT: You may need other custom methods to decrease the amount of code in the equations() method
     public String equation(){
-        if (slope()==0.0){
+        if (slope()==0.0){        // when slope=0, the equation is just the yint
             return "y=" + yInt();
         }
-        if (yInt()==0.0) {
+        if (yInt()==0.0) {       // when yint is 0, equation is just slope
             return "y=" +slope() + "x";
         }
-        if (slope()!= -999.99){
+        if (slope()!= -999.99){  
           if (yInt()>0) {
             return "y=" + slope() + "x+" + yInt();
           } else {
